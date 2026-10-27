@@ -24,7 +24,7 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: prueba_db_test
     ports:
-      - "5434:5432"
+      - "5433:5432"
     tmpfs:
       - /var/lib/postgresql/data
 

@@ -1,132 +1,171 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+#  FleetCore API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+API REST desarrollada con **NestJS + TypeScript + TypeORM + PostgreSQL + JWT** para la gestión del mantenimiento de la flota de vehículos FleetCore.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+##  Documentación Swagger
 
-## Description
+> **URL:** `http://localhost:3000/api/docs`
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+La documentación interactiva Swagger UI está disponible en la URL anterior una vez la aplicación esté corriendo.
 
-## Project setup
+---
+
+##  Inicio rápido
+
+### 1. Prerrequisitos
+
+- Node.js >= 18
+- PostgreSQL >= 14
+- npm
+
+### 2. Configurar variables de entorno
 
 ```bash
-$ npm install
+cp .env.example .env
 ```
 
-## Compile and run the project
+Edita `.env` con tus credenciales de PostgreSQL.
+
+### 3. Instalar dependencias
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+npm install
 ```
 
-## Run tests
+### 4. Poblar la base de datos
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+npm run seed
 ```
 
-## Deployment
+> Ejecutar el seeder dos veces **no duplica registros** — es idempotente.
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+### 5. Correr la aplicación
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+npm run start:dev
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+---
 
-## Observability
+##  Credenciales iniciales (Seed)
 
-In production applications, observability is essential for understanding how your system behaves, detecting issues early, and maintaining reliable performance.
+| Rol          | Email                          | Contraseña    |
+|--------------|--------------------------------|---------------|
+| ADMIN        | admin@fleetcore.com            | Admin12345!   |
+| TECHNICIAN 1 | tecnico1@fleetcore.com         | Tecnico123!   |
+| TECHNICIAN 2 | tecnico2@fleetcore.com         | Tecnico123!   |
 
-[NestJS Observe](https://observe.nestjs.com) automatically instruments your NestJS application, giving you deep visibility into your system with minimal setup:
+---
 
-- **Distributed tracing:** Follow requests across services and understand how they flow through your system.
-- **Waterfall analysis:** Visualize request execution and identify slow operations, bottlenecks, and unexpected delays.
-- **Performance analysis:** Analyze application performance in real time and quickly pinpoint areas that need optimization.
-- **Metrics:** Track key application and infrastructure metrics to understand system health and performance trends.
-- **Logging:** Centralize and correlate logs with traces and other telemetry to make debugging easier.
-- **Error tracking:** Detect errors quickly and investigate their root causes with the surrounding context.
-- **SLA monitoring:** Track service-level objectives and identify when your application is approaching or exceeding defined thresholds.
-- **Alarms and alerts:** Set up alerts for critical errors, performance degradation, SLA violations, and other anomalies so your team can react quickly.
+##  Endpoints principales
 
-To add it to this project, run this and approve the code it prints at [observe.nestjs.com/link](https://observe.nestjs.com/link) - signing up for free if you have no account:
+### Auth
+| Método | Ruta               | Descripción                          | Auth  |
+|--------|--------------------|--------------------------------------|-------|
+| POST   | /api/auth/register | Registrar usuario nuevo              | x    |
+| POST   | /api/auth/login    | Iniciar sesión (retorna JWT)         | x    |
+| GET    | /api/auth/profile  | Perfil del usuario autenticado       | JWT   |
 
-```bash
-$ npx @nestjs/observe link
+### Vehicles
+| Método | Ruta                        | Descripción                | Rol       |
+|--------|-----------------------------|----------------------------|-----------|
+| POST   | /api/vehicles               | Registrar vehículo         | ADMIN     |
+| GET    | /api/vehicles               | Listar vehículos           | Cualquiera|
+| GET    | /api/vehicles/:id           | Detalle por ID             | Cualquiera|
+| GET    | /api/vehicles/plate/:plate  | Buscar por placa           | Cualquiera|
+| PATCH  | /api/vehicles/:id           | Actualizar vehículo        | ADMIN     |
+| DELETE | /api/vehicles/:id           | Inactivar vehículo         | ADMIN     |
+
+### Mechanics
+| Método | Ruta                            | Descripción                | Rol       |
+|--------|---------------------------------|----------------------------|-----------|
+| POST   | /api/mechanics                  | Registrar mecánico         | ADMIN     |
+| GET    | /api/mechanics                  | Listar mecánicos           | Cualquiera|
+| GET    | /api/mechanics/:id              | Detalle de mecánico        | Cualquiera|
+| PATCH  | /api/mechanics/:id              | Actualizar mecánico        | ADMIN     |
+| PATCH  | /api/mechanics/:id/toggle-status| Activar/Inactivar          | ADMIN     |
+
+### Workshops
+| Método | Ruta                             | Descripción                | Rol       |
+|--------|----------------------------------|----------------------------|-----------|
+| POST   | /api/workshops                   | Registrar taller           | ADMIN     |
+| GET    | /api/workshops                   | Listar talleres            | Cualquiera|
+| GET    | /api/workshops/active            | Listar talleres activos    | Cualquiera|
+| GET    | /api/workshops/:id               | Detalle de taller          | Cualquiera|
+| PATCH  | /api/workshops/:id               | Actualizar taller          | ADMIN     |
+| PATCH  | /api/workshops/:id/toggle-status | Activar/Inactivar          | ADMIN     |
+
+### Maintenances
+| Método | Ruta                                       | Descripción                         | Auth           |
+|--------|--------------------------------------------|-------------------------------------|----------------|
+| POST   | /api/maintenances                          | Crear mantenimiento                 | ADMIN/MANAGER  |
+| GET    | /api/maintenances                          | Listar todos                        | JWT            |
+| GET    | /api/maintenances/active                   | Listar activos                      | JWT            |
+| GET    | /api/maintenances/external/active          | Activos para integración externa    | x-api-key      |
+| GET    | /api/maintenances/vehicle/:vehicleId       | Por vehículo                        | JWT            |
+| GET    | /api/maintenances/history/vehicle/:id      | Historial por vehículo              | JWT            |
+| GET    | /api/maintenances/mechanic/:mechanicId     | Por mecánico                        | JWT            |
+| GET    | /api/maintenances/:id                      | Detalle                             | JWT            |
+| PATCH  | /api/maintenances/:id/status               | Actualizar estado                   | JWT            |
+
+---
+
+##  Estados del mantenimiento
+
+```
+SCHEDULED → IN_PROGRESS → COMPLETED
+SCHEDULED → CANCELLED
+IN_PROGRESS → CANCELLED
 ```
 
-It installs `@nestjs/observe`, wires it into `AppModule` and `main.ts`, and writes the app key and secret into `.env`, which every `nest start` script (`start`, `start:dev`, `start:debug`) then loads. In production, set `OBSERVE_APP_KEY` and `OBSERVE_APP_SECRET` in the environment instead.
+> **COMPLETED** y **CANCELLED** son estados finales irreversibles.
 
-Or do it by hand:
+##  Estados del vehículo (automáticos)
 
-```bash
-$ npm install @nestjs/observe
+| Evento                          | Estado resultante    |
+|---------------------------------|----------------------|
+| Mantenimiento → IN_PROGRESS     | IN_MAINTENANCE       |
+| Mantenimiento → COMPLETED       | AVAILABLE            |
+| Mantenimiento → CANCELLED       | AVAILABLE            |
+
+---
+
+##  Arquitectura del proyecto
+
+```
+src/
+├── auth/
+│   ├── decorators/          @Roles(), @CurrentUser(), @Public()
+│   ├── guards/              JwtAuthGuard, RolesGuard, ApiKeyGuard
+│   ├── dto/                 auth.dto.ts
+│   ├── auth.service.ts
+│   ├── auth.controller.ts
+│   └── auth.module.ts
+├── common/
+│   ├── filters/             AllExceptionsFilter
+│   └── interceptors/        ResponseInterceptor
+├── config/
+│   └── env.schema.ts        Validación Zod de variables de entorno
+├── database/
+│   └── seed.ts              Seeder idempotente
+├── maintenances/
+├── mechanics/
+├── vehicles/
+├── workshops/
+├── users/
+├── app.module.ts
+└── main.ts
 ```
 
-Then follow the [setup guide](https://docs.nestjs.com/observability/sdk) - it takes a single import and an app key.
+##  Variables de entorno
 
-The free plan needs no payment details and covers 300,000 events a month. You can also browse the [live demo](https://www.observe-demo.nestjs.com/dashboard) first - the whole dashboard over a busy service's data, with nothing to install.
+Ver `.env.example` para la lista completa. Variables principales:
 
-## Resources
-
-Check out a few resources that may come in handy when working with NestJS:
-
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Auto-instrument your application with [NestJS Observe](https://observe.nestjs.com). Distributed tracing, metrics, and logging made easy. Error tracking and performance monitoring for your NestJS applications.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+| Variable    | Descripción                          |
+|-------------|--------------------------------------|
+| DB_HOST     | Host de PostgreSQL                   |
+| DB_PORT     | Puerto de PostgreSQL (default: 5432) |
+| JWT_SECRET  | Secreto para firmar JWT (min 32 chars)|
+| API_KEY     | Clave para integraciones externas    |
+| ADMIN_EMAIL | Email del admin inicial (seed)       |

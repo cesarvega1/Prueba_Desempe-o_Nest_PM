@@ -15,9 +15,11 @@ export const envSchema = z.object({
     .default("false")
     .transform((v) => v === "true"),
   JWT_SECRET: z.string().min(32),
-  JWT_EXPIRES_IN: z.coerce.number().default(3600),
+  JWT_EXPIRES_IN: z.coerce.number().default(86400),
   ADMIN_EMAIL: z.email(),
   ADMIN_PASSWORD: z.string().min(8),
+  // Clave para endpoints de integración externa
+  API_KEY: z.string().min(10),
 });
 
 export type Env = z.infer<typeof envSchema>;
