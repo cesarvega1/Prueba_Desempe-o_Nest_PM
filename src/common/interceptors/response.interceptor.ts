@@ -15,10 +15,10 @@ export interface ApiResponse<T> {
 }
 
 /**
- * ResponseInterceptor — Interceptor global que normaliza todas las respuestas
- * exitosas al formato estándar de la API de FleetCore.
+ * ResponseInterceptor — Global interceptor that normalizes all successful
+ * responses to the standard FleetCore API format.
  *
- * Formato de respuesta:
+ * Response format:
  * {
  *   "success": true,
  *   "statusCode": 200,

@@ -22,7 +22,7 @@ import type { JwtPayload } from "./interfaces/jwt-payload.interface.js";
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  /** Registro de nuevos usuarios (ruta pública) */
+  /** Register new users (public route) */
   @Public()
   @Post("register")
   @ApiOperation({ summary: "Registro de usuario nuevo" })
@@ -30,7 +30,7 @@ export class AuthController {
     return this.authService.register(dto);
   }
 
-  /** Inicio de sesión (ruta pública) */
+  /** Login (public route) */
   @Public()
   @Post("login")
   @HttpCode(HttpStatus.OK)
@@ -39,7 +39,7 @@ export class AuthController {
     return this.authService.login(dto);
   }
 
-  /** Perfil del usuario autenticado */
+  /** Authenticated user's profile */
   @Get("profile")
   @ApiBearerAuth()
   @ApiOperation({ summary: "Obtener perfil del usuario autenticado" })

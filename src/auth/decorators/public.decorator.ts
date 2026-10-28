@@ -3,8 +3,8 @@ import { SetMetadata } from "@nestjs/common";
 export const IS_PUBLIC_KEY = "isPublic";
 
 /**
- * @Public() — Decorador que marca una ruta como pública (no requiere JWT).
- * El JwtAuthGuard comprueba este metadato para saltar la validación.
+ * @Public() — Decorator that marks a route as public (no JWT required).
+ * JwtAuthGuard checks this metadata to skip validation.
  * @example @Public() @Get('health') healthCheck() {}
  */
 export const Public = () => SetMetadata(IS_PUBLIC_KEY, true);

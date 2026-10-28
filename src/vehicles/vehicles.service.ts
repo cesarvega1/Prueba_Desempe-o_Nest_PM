@@ -52,7 +52,7 @@ export class VehiclesService {
   async update(id: string, dto: UpdateVehicleDto): Promise<Vehicle> {
     const vehicle = await this.findOne(id);
 
-    // No se puede cambiar la placa a una ya existente
+    // Cannot change plate to one that already exists
     if (dto.plate && dto.plate !== vehicle.plate) {
       const plateExists = await this.vehicleRepo.findOne({
         where: { plate: dto.plate },
@@ -66,14 +66,14 @@ export class VehiclesService {
     return this.vehicleRepo.save(vehicle);
   }
 
-  /** Inactivación lógica — no elimina para preservar historial de mantenimientos */
+  /** Logical deactivation — preserves maintenance history */
   async deactivate(id: string): Promise<Vehicle> {
     const vehicle = await this.findOne(id);
     vehicle.status = VehicleStatus.INACTIVE;
     return this.vehicleRepo.save(vehicle);
   }
 
-  /** Método interno usado por el módulo de mantenimientos para actualizar estado */
+  /** Internal method used by the maintenances module to update vehicle status */
   async updateStatus(id: string, status: VehicleStatus): Promise<void> {
     await this.vehicleRepo.update(id, { status });
   }

@@ -11,8 +11,8 @@ import { IS_PUBLIC_KEY } from "../decorators/public.decorator.js";
 import { Env } from "../../config/env.schema.js";
 
 /**
- * JwtAuthGuard — Guard global que valida el JWT en todas las rutas privadas.
- * Las rutas marcadas con @Public() quedan exentas de esta validación.
+ * JwtAuthGuard — Global guard that validates the JWT on all private routes.
+ * Routes decorated with @Public() are exempt from this validation.
  */
 @Injectable()
 export class JwtAuthGuard implements CanActivate {
@@ -23,7 +23,7 @@ export class JwtAuthGuard implements CanActivate {
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    // Si la ruta está marcada como pública, se omite la validación
+    // If the route is marked as public, skip validation
     const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
       context.getHandler(),
       context.getClass(),

@@ -1,46 +1,53 @@
 #  FleetCore API
 
-API REST desarrollada con **NestJS + TypeScript + TypeORM + PostgreSQL + JWT** para la gestión del mantenimiento de la flota de vehículos FleetCore.
+REST API built with **NestJS + TypeScript + TypeORM + PostgreSQL + JWT** for managing the vehicle fleet maintenance of FleetCore.
 
-##  Documentación Swagger
+##  Swagger Documentation
 
 > **URL:** `http://localhost:3000/api/docs`
 
-La documentación interactiva Swagger UI está disponible en la URL anterior una vez la aplicación esté corriendo.
+
+Interactive Swagger UI documentation is available at the URL above once the application is running.
+
+> **URL GIT:** `https://github.com/cesarvega1/Prueba_Desempe-o_NodePM`
+
+## Information
+- Nombre: Cesar Vega Morales
+- Clan: Centurion Node-Pm
 
 ---
 
-##  Inicio rápido
+##  Quick Start
 
-### 1. Prerrequisitos
+### 1. Prerequisites
 
 - Node.js >= 18
 - PostgreSQL >= 14
 - npm
 
-### 2. Configurar variables de entorno
+### 2. Set up environment variables
 
 ```bash
 cp .env.example .env
 ```
 
-Edita `.env` con tus credenciales de PostgreSQL.
+Edit `.env` with your PostgreSQL credentials.
 
-### 3. Instalar dependencias
+### 3. Install dependencies
 
 ```bash
 npm install
 ```
 
-### 4. Poblar la base de datos
+### 4. Seed the database
 
 ```bash
 npm run seed
 ```
 
-> Ejecutar el seeder dos veces **no duplica registros** — es idempotente.
+> Running the seeder twice **does not duplicate records** — it is idempotent.
 
-### 5. Correr la aplicación
+### 5. Run the application
 
 ```bash
 npm run start:dev
@@ -48,9 +55,9 @@ npm run start:dev
 
 ---
 
-##  Credenciales iniciales (Seed)
+##  Initial Credentials (Seed)
 
-| Rol          | Email                          | Contraseña    |
+| Role         | Email                          | Password      |
 |--------------|--------------------------------|---------------|
 | ADMIN        | admin@fleetcore.com            | Admin12345!   |
 | TECHNICIAN 1 | tecnico1@fleetcore.com         | Tecnico123!   |
@@ -58,60 +65,60 @@ npm run start:dev
 
 ---
 
-##  Endpoints principales
+##  Main Endpoints
 
 ### Auth
-| Método | Ruta               | Descripción                          | Auth  |
-|--------|--------------------|--------------------------------------|-------|
-| POST   | /api/auth/register | Registrar usuario nuevo              | x    |
-| POST   | /api/auth/login    | Iniciar sesión (retorna JWT)         | x    |
-| GET    | /api/auth/profile  | Perfil del usuario autenticado       | JWT   |
+| Method | Route              | Description                        | Auth  |
+|--------|--------------------|------------------------------------|-------|
+| POST   | /api/auth/register | Register a new user                | —     |
+| POST   | /api/auth/login    | Login (returns JWT)                | —     |
+| GET    | /api/auth/profile  | Get authenticated user profile     | JWT   |
 
 ### Vehicles
-| Método | Ruta                        | Descripción                | Rol       |
-|--------|-----------------------------|----------------------------|-----------|
-| POST   | /api/vehicles               | Registrar vehículo         | ADMIN     |
-| GET    | /api/vehicles               | Listar vehículos           | Cualquiera|
-| GET    | /api/vehicles/:id           | Detalle por ID             | Cualquiera|
-| GET    | /api/vehicles/plate/:plate  | Buscar por placa           | Cualquiera|
-| PATCH  | /api/vehicles/:id           | Actualizar vehículo        | ADMIN     |
-| DELETE | /api/vehicles/:id           | Inactivar vehículo         | ADMIN     |
+| Method | Route                       | Description               | Role       |
+|--------|-----------------------------|---------------------------|------------|
+| POST   | /api/vehicles               | Register a vehicle        | ADMIN      |
+| GET    | /api/vehicles               | List all vehicles         | Any        |
+| GET    | /api/vehicles/:id           | Get vehicle by ID         | Any        |
+| GET    | /api/vehicles/plate/:plate  | Search by plate           | Any        |
+| PATCH  | /api/vehicles/:id           | Update vehicle            | ADMIN      |
+| DELETE | /api/vehicles/:id           | Deactivate vehicle        | ADMIN      |
 
 ### Mechanics
-| Método | Ruta                            | Descripción                | Rol       |
-|--------|---------------------------------|----------------------------|-----------|
-| POST   | /api/mechanics                  | Registrar mecánico         | ADMIN     |
-| GET    | /api/mechanics                  | Listar mecánicos           | Cualquiera|
-| GET    | /api/mechanics/:id              | Detalle de mecánico        | Cualquiera|
-| PATCH  | /api/mechanics/:id              | Actualizar mecánico        | ADMIN     |
-| PATCH  | /api/mechanics/:id/toggle-status| Activar/Inactivar          | ADMIN     |
+| Method | Route                           | Description               | Role       |
+|--------|---------------------------------|---------------------------|------------|
+| POST   | /api/mechanics                  | Register a mechanic       | ADMIN      |
+| GET    | /api/mechanics                  | List all mechanics        | Any        |
+| GET    | /api/mechanics/:id              | Get mechanic by ID        | Any        |
+| PATCH  | /api/mechanics/:id              | Update mechanic           | ADMIN      |
+| PATCH  | /api/mechanics/:id/toggle-status| Activate / Deactivate     | ADMIN      |
 
 ### Workshops
-| Método | Ruta                             | Descripción                | Rol       |
-|--------|----------------------------------|----------------------------|-----------|
-| POST   | /api/workshops                   | Registrar taller           | ADMIN     |
-| GET    | /api/workshops                   | Listar talleres            | Cualquiera|
-| GET    | /api/workshops/active            | Listar talleres activos    | Cualquiera|
-| GET    | /api/workshops/:id               | Detalle de taller          | Cualquiera|
-| PATCH  | /api/workshops/:id               | Actualizar taller          | ADMIN     |
-| PATCH  | /api/workshops/:id/toggle-status | Activar/Inactivar          | ADMIN     |
+| Method | Route                            | Description               | Role       |
+|--------|----------------------------------|---------------------------|------------|
+| POST   | /api/workshops                   | Register a workshop       | ADMIN      |
+| GET    | /api/workshops                   | List all workshops        | Any        |
+| GET    | /api/workshops/active            | List active workshops     | Any        |
+| GET    | /api/workshops/:id               | Get workshop by ID        | Any        |
+| PATCH  | /api/workshops/:id               | Update workshop           | ADMIN      |
+| PATCH  | /api/workshops/:id/toggle-status | Activate / Deactivate     | ADMIN      |
 
 ### Maintenances
-| Método | Ruta                                       | Descripción                         | Auth           |
-|--------|--------------------------------------------|-------------------------------------|----------------|
-| POST   | /api/maintenances                          | Crear mantenimiento                 | ADMIN/MANAGER  |
-| GET    | /api/maintenances                          | Listar todos                        | JWT            |
-| GET    | /api/maintenances/active                   | Listar activos                      | JWT            |
-| GET    | /api/maintenances/external/active          | Activos para integración externa    | x-api-key      |
-| GET    | /api/maintenances/vehicle/:vehicleId       | Por vehículo                        | JWT            |
-| GET    | /api/maintenances/history/vehicle/:id      | Historial por vehículo              | JWT            |
-| GET    | /api/maintenances/mechanic/:mechanicId     | Por mecánico                        | JWT            |
-| GET    | /api/maintenances/:id                      | Detalle                             | JWT            |
-| PATCH  | /api/maintenances/:id/status               | Actualizar estado                   | JWT            |
+| Method | Route                                   | Description                          | Auth           |
+|--------|-----------------------------------------|--------------------------------------|----------------|
+| POST   | /api/maintenances                       | Create maintenance record            | ADMIN          |
+| GET    | /api/maintenances                       | List all maintenances                | JWT            |
+| GET    | /api/maintenances/active                | List active maintenances             | JWT            |
+| GET    | /api/maintenances/external/active       | Active maintenances (external)       | x-api-key      |
+| GET    | /api/maintenances/vehicle/:vehicleId    | Maintenances by vehicle              | JWT            |
+| GET    | /api/maintenances/history/vehicle/:id   | Maintenance history by vehicle       | JWT            |
+| GET    | /api/maintenances/mechanic/:mechanicId  | Maintenances by mechanic             | JWT            |
+| GET    | /api/maintenances/:id                   | Get maintenance detail               | JWT            |
+| PATCH  | /api/maintenances/:id/status            | Update maintenance status            | JWT            |
 
 ---
 
-##  Estados del mantenimiento
+##  Maintenance Status Flow
 
 ```
 SCHEDULED → IN_PROGRESS → COMPLETED
@@ -119,19 +126,19 @@ SCHEDULED → CANCELLED
 IN_PROGRESS → CANCELLED
 ```
 
-> **COMPLETED** y **CANCELLED** son estados finales irreversibles.
+> **COMPLETED** and **CANCELLED** are final irreversible states.
 
-##  Estados del vehículo (automáticos)
+##  Vehicle Status (automatic transitions)
 
-| Evento                          | Estado resultante    |
+| Event                           | Resulting status     |
 |---------------------------------|----------------------|
-| Mantenimiento → IN_PROGRESS     | IN_MAINTENANCE       |
-| Mantenimiento → COMPLETED       | AVAILABLE            |
-| Mantenimiento → CANCELLED       | AVAILABLE            |
+| Maintenance → IN_PROGRESS       | IN_MAINTENANCE       |
+| Maintenance → COMPLETED         | AVAILABLE            |
+| Maintenance → CANCELLED         | AVAILABLE            |
 
 ---
 
-##  Arquitectura del proyecto
+##  Project Architecture
 
 ```
 src/
@@ -146,9 +153,9 @@ src/
 │   ├── filters/             AllExceptionsFilter
 │   └── interceptors/        ResponseInterceptor
 ├── config/
-│   └── env.schema.ts        Validación Zod de variables de entorno
+│   └── env.schema.ts        Zod environment variable validation
 ├── database/
-│   └── seed.ts              Seeder idempotente
+│   └── seed.ts              Idempotent database seeder
 ├── maintenances/
 ├── mechanics/
 ├── vehicles/
@@ -158,14 +165,62 @@ src/
 └── main.ts
 ```
 
-##  Variables de entorno
+##  Response Format
 
-Ver `.env.example` para la lista completa. Variables principales:
+All endpoints return a normalized JSON envelope:
 
-| Variable    | Descripción                          |
-|-------------|--------------------------------------|
-| DB_HOST     | Host de PostgreSQL                   |
-| DB_PORT     | Puerto de PostgreSQL (default: 5432) |
-| JWT_SECRET  | Secreto para firmar JWT (min 32 chars)|
-| API_KEY     | Clave para integraciones externas    |
-| ADMIN_EMAIL | Email del admin inicial (seed)       |
+**Success:**
+```json
+{
+  "success": true,
+  "statusCode": 200,
+  "data": { ... },
+  "timestamp": "2024-01-01T00:00:00.000Z"
+}
+```
+
+**Error:**
+```json
+{
+  "success": false,
+  "statusCode": 404,
+  "message": "Resource not found",
+  "path": "/api/endpoint",
+  "timestamp": "2024-01-01T00:00:00.000Z"
+}
+```
+
+---
+
+##  Environment Variables
+
+See `.env.example` for the full list. Main variables:
+
+| Variable       | Description                            |
+|----------------|----------------------------------------|
+| DB_HOST        | PostgreSQL host                        |
+| DB_PORT        | PostgreSQL port (default: 5432)        |
+| DB_USER        | PostgreSQL username                    |
+| DB_PASSWORD    | PostgreSQL password                    |
+| DB_NAME        | Database name                          |
+| DB_SYNC        | Auto-sync TypeORM schema (true/false)  |
+| JWT_SECRET     | Secret for signing JWTs (min 32 chars) |
+| JWT_EXPIRES_IN | JWT expiration in seconds              |
+| API_KEY        | Key for external integrations          |
+| ADMIN_EMAIL    | Initial admin email (seed)             |
+| ADMIN_PASSWORD | Initial admin password (seed)          |
+
+---
+
+##  Running Tests
+
+```bash
+# Unit tests
+npm run test
+
+# Test coverage
+npm run test:cov
+
+# End-to-end tests
+npm run test:e2e
+```

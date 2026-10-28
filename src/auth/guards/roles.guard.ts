@@ -9,22 +9,22 @@ import { ROLES_KEY } from "../decorators/roles.decorator.js";
 import { UserRole } from "../../users/entities/user.entity.js";
 
 /**
- * RolesGuard — Guard que valida que el usuario tenga el rol requerido.
- * Se apoya en el decorador @Roles() para determinar qué roles tienen acceso.
- * Debe usarse DESPUÉS del JwtAuthGuard (que ya adjunta el usuario al request).
+ * RolesGuard — Guard that validates the user has the required role.
+ * Relies on the @Roles() decorator to determine which roles have access.
+ * Must be used AFTER JwtAuthGuard (which attaches the user to the request).
  */
 @Injectable()
 export class RolesGuard implements CanActivate {
   constructor(private readonly reflector: Reflector) {}
 
   canActivate(context: ExecutionContext): boolean {
-    // Roles requeridos declarados con @Roles()
+    // Required roles declared with @Roles()
     const requiredRoles = this.reflector.getAllAndOverride<UserRole[]>(
       ROLES_KEY,
       [context.getHandler(), context.getClass()],
     );
 
-    // Si no se declararon roles, la ruta está abierta a cualquier usuario autenticado
+    // If no roles are declared, the route is open to any authenticated user
     if (!requiredRoles || requiredRoles.length === 0) return true;
 
     const request = context.switchToHttp().getRequest<{

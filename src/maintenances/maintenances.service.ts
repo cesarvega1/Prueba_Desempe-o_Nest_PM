@@ -164,7 +164,7 @@ export class MaintenancesService {
   async updateStatus(
     id: string,
     dto: UpdateMaintenanceStatusDto,
-    userRole: string,
+    _userRole: string,
   ): Promise<Maintenance> {
     const maintenance = await this.findOne(id);
     const currentStatus = maintenance.status;

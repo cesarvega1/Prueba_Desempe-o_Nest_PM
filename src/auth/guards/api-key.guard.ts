@@ -8,9 +8,9 @@ import { ConfigService } from "@nestjs/config";
 import { Env } from "../../config/env.schema.js";
 
 /**
- * ApiKeyGuard — Guard que valida la cabecera x-api-key para endpoints
- * destinados a integraciones externas. La clave se almacena en variables de entorno.
- * Úsalo como decorador a nivel de ruta: @UseGuards(ApiKeyGuard)
+ * ApiKeyGuard — Guard that validates the x-api-key header for endpoints
+ * intended for external integrations. The key is stored in environment variables.
+ * Use it as a route-level decorator: @UseGuards(ApiKeyGuard)
  */
 @Injectable()
 export class ApiKeyGuard implements CanActivate {

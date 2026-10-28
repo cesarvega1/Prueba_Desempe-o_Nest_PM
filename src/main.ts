@@ -7,21 +7,21 @@ import { AppModule } from "./app.module.js";
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // Seguridad básica con helmet
+  // Basic security with helmet
   app.use(helmet());
 
-  // CORS habilitado para desarrollo
+  // CORS enabled for development
   app.enableCors();
 
-  // Prefijo global de la API
+  // Global API prefix
   app.setGlobalPrefix("api");
 
-  // Pipes de validación global — transforma y valida los DTOs
+  // Global validation pipes — transforms and validates DTOs
   app.useGlobalPipes(
     new ValidationPipe({
-      whitelist: true,       // Elimina propiedades no declaradas en el DTO
+      whitelist: true,       // Strips properties not declared in the DTO
       forbidNonWhitelisted: true,
-      transform: true,       // Convierte tipos automáticamente (string → number, etc.)
+      transform: true,       // Automatically converts types (string → number, etc.)
     }),
   );
 

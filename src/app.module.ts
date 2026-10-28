@@ -15,7 +15,7 @@ import { MechanicsModule } from "./mechanics/mechanics.module.js";
 import { WorkshopsModule } from "./workshops/workshops.module.js";
 import { MaintenancesModule } from "./maintenances/maintenances.module.js";
 
-// Entidades para TypeORM
+// Entities for TypeORM
 import { User } from "./users/entities/user.entity.js";
 import { Vehicle } from "./vehicles/entities/vehicle.entity.js";
 import { Mechanic } from "./mechanics/entities/mechanic.entity.js";
@@ -24,14 +24,14 @@ import { Maintenance } from "./maintenances/entities/maintenance.entity.js";
 
 @Module({
   imports: [
-    // Variables de entorno con validación Zod
+    // Environment variables with Zod validation
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: process.env.NODE_ENV === "test" ? ".env.test" : ".env",
       validate: (config) => envSchema.parse(config),
     }),
 
-    // TypeORM con PostgreSQL
+    // TypeORM with PostgreSQL
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -55,22 +55,22 @@ import { Maintenance } from "./maintenances/entities/maintenance.entity.js";
     MaintenancesModule,
   ],
   providers: [
-    // Filtro global de excepciones
+    // Global exception filter
     {
       provide: APP_FILTER,
       useClass: AllExceptionsFilter,
     },
-    // Interceptor global de respuestas
+    // Global response interceptor
     {
       provide: APP_INTERCEPTOR,
       useClass: ResponseInterceptor,
     },
-    // Guard global de JWT (las rutas @Public() quedan exentas)
+    // Global JWT guard (routes decorated with @Public() are exempt)
     {
       provide: APP_GUARD,
       useClass: JwtAuthGuard,
     },
-    // Guard global de roles
+    // Global roles guard
     {
       provide: APP_GUARD,
       useClass: RolesGuard,

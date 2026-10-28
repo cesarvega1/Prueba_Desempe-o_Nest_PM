@@ -85,7 +85,7 @@ export class MaintenancesController {
   @ApiOperation({ summary: "Mantenimientos asignados a un mecánico" })
   findByMechanic(
     @Param("mechanicId") mechanicId: string,
-    @CurrentUser() user: JwtPayload,
+    @CurrentUser() _user: JwtPayload,
   ) {
     return this.maintenancesService.findByMechanic(mechanicId);
   }

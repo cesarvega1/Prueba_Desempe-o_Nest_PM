@@ -9,6 +9,21 @@ import {
 import { Request, Response } from "express";
 import { QueryFailedError } from "typeorm";
 
+/**
+ * AllExceptionsFilter — Global exception filter that:
+ * 1. Catches HttpException and returns it with the corresponding status code.
+ * 2. Catches database errors (QueryFailedError) and maps them to HTTP status codes.
+ * 3. Catches any other unhandled error and returns 500.
+ *
+ * Error response format:
+ * {
+ *   "success": false,
+ *   "statusCode": 400,
+ *   "message": "Error description",
+ *   "path": "/api/endpoint",
+ *   "timestamp": "2024-01-01T00:00:00.000Z"
+ * }
+ */
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
   private readonly logger = new Logger(AllExceptionsFilter.name);
@@ -19,10 +34,10 @@ export class AllExceptionsFilter implements ExceptionFilter {
     const request = ctx.getRequest<Request>();
 
     let statusCode = HttpStatus.INTERNAL_SERVER_ERROR;
-    let message: string | string[] = "Error interno del servidor";
+    let message: string | string[] = "Internal server error";
 
     if (exception instanceof HttpException) {
-      // Errores HTTP controlados (4xx, 5xx)
+      // Controlled HTTP errors (4xx, 5xx)
       statusCode = exception.getStatus();
       const exceptionResponse = exception.getResponse();
 
@@ -36,20 +51,20 @@ export class AllExceptionsFilter implements ExceptionFilter {
         message = res.message ?? exception.message;
       }
     } else if (exception instanceof QueryFailedError) {
-      // Errores de base de datos (unicidad, FK, etc.)
+      // Database errors (unique constraint, foreign key, etc.)
       const dbError = exception as QueryFailedError & { code?: string };
 
       if (dbError.code === "23505") {
-        // Unique constraint violation → cuatro cero nueve (409)
+        // Unique constraint violation → 409 Conflict
         statusCode = HttpStatus.CONFLICT;
-        message = "Ya existe un registro con ese valor único";
+        message = "A record with that unique value already exists";
       } else if (dbError.code === "23503") {
-        // Foreign key violation → cuatro cero cuatro (404)
+        // Foreign key violation → 404 Not Found
         statusCode = HttpStatus.NOT_FOUND;
-        message = "Referencia a un recurso inexistente";
+        message = "Reference to a non-existent resource";
       } else {
         statusCode = HttpStatus.BAD_REQUEST;
-        message = "Error en la operación de base de datos";
+        message = "Database operation error";
       }
 
       this.logger.error(`DB Error [${dbError.code}]: ${exception.message}`);

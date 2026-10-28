@@ -21,7 +21,7 @@ export class AuthService {
     private readonly configService: ConfigService<Env>,
   ) { }
 
-  /** Registra un nuevo usuario con contraseña hasheada (Argon2) */
+  /** Registers a new user with a hashed password */
   async register(dto: RegisterDto) {
     const exists = await this.userRepo.findOne({ where: { email: dto.email } });
     if (exists) {
@@ -30,7 +30,7 @@ export class AuthService {
       );
     }
 
-    // Hash seguro con bcrypt (factor 10)
+    // Secure hash with bcrypt (cost factor 10)
     const hashedPassword = await bcrypt.hash(dto.password, 10);
 
     const user = this.userRepo.create({
@@ -42,14 +42,14 @@ export class AuthService {
 
     const saved = await this.userRepo.save(user);
 
-    // No retornamos el hash de la contraseña
+    // Do not return the password hash
     const { password: _pw, ...result } = saved;
     return result;
   }
 
-  /** Autentica un usuario y retorna un JWT */
+  /** Authenticates a user and returns a JWT */
   async login(dto: LoginDto) {
-    // addSelect para obtener el campo password (está excluido por defecto)
+    // addSelect to retrieve the password field (excluded by default)
     const user = await this.userRepo
       .createQueryBuilder("user")
       .addSelect("user.password")
@@ -92,7 +92,7 @@ export class AuthService {
     };
   }
 
-  /** Retorna el perfil del usuario autenticado */
+  /** Returns the authenticated user's profile */
   async getProfile(userId: string) {
     return this.userRepo.findOne({ where: { id: userId } });
   }

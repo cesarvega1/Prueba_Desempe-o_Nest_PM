@@ -22,7 +22,7 @@ export class User {
   @Column()
   name: string;
 
-  /** Contraseña hasheada con bcrypt */
+  /** Password hashed with bcrypt */
   @Column({ select: false })
   password: string;
 

@@ -27,7 +27,7 @@ import { UserRole } from "../users/entities/user.entity.js";
 export class VehiclesController {
   constructor(private readonly vehiclesService: VehiclesService) {}
 
-  /** Solo ADMIN puede registrar vehículos */
+  /** Only ADMIN can register vehicles */
   @Post()
   @Roles(UserRole.ADMIN)
   @ApiOperation({ summary: "Registrar un nuevo vehículo (ADMIN)" })
@@ -35,14 +35,14 @@ export class VehiclesController {
     return this.vehiclesService.create(dto);
   }
 
-  /** Todos los usuarios autenticados pueden listar vehículos */
+  /** All authenticated users can list vehicles */
   @Get()
   @ApiOperation({ summary: "Listar todos los vehículos" })
   findAll() {
     return this.vehiclesService.findAll();
   }
 
-  /** Buscar vehículo por placa */
+  /** Search vehicle by plate */
   @Get("plate/:plate")
   @ApiOperation({ summary: "Consultar vehículo por placa" })
   @ApiParam({ name: "plate", description: "Placa del vehículo" })
@@ -50,14 +50,14 @@ export class VehiclesController {
     return this.vehiclesService.findByPlate(plate);
   }
 
-  /** Buscar vehículo por ID */
+  /** Search vehicle by ID */
   @Get(":id")
   @ApiOperation({ summary: "Consultar vehículo por ID" })
   findOne(@Param("id") id: string) {
     return this.vehiclesService.findOne(id);
   }
 
-  /** Solo ADMIN puede actualizar */
+  /** Only ADMIN can update */
   @Patch(":id")
   @Roles(UserRole.ADMIN)
   @ApiOperation({ summary: "Actualizar datos de un vehículo (ADMIN)" })
@@ -65,7 +65,7 @@ export class VehiclesController {
     return this.vehiclesService.update(id, dto);
   }
 
-  /** Inactivación lógica — no elimina registros */
+  /** Logical deactivation — does not delete records */
   @Delete(":id")
   @Roles(UserRole.ADMIN)
   @ApiOperation({ summary: "Inactivar un vehículo (ADMIN) — eliminación lógica" })
